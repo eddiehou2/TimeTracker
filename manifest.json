@@ -1,5 +1,5 @@
 {
-  "manifest_version": 1,
+  "manifest_version": 2,
 
   "name": "TimeTracker Extension",
   "description": "This extension will record and analyze the type of activities and amount of time spent on each activity.",
@@ -9,17 +9,16 @@
    "default_icon": "icon.png",
    "default_popup": "popup.html"
   },
-  "content_scripts": [
-    {
-      "matches": ["*"],
+  "content_scripts": [{
+      "matches": ["<all_urls>"],
       "js": ["content_scripts.js"]
-    }
-  ],
+  }],
   "background": {
     "scripts": ["background_script.js"]
   },
   "permissions": [
    "activeTab",
-   "tabs"
+   "tabs",
+   "storage"
    ]
 }
