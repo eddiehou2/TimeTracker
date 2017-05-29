@@ -1,4 +1,6 @@
-var colors = ["#FFDAB9", "#E6E6FA", "#E0FFFF","#FFDAB9", "#E6E6FA", "#E0FFFF","#FFDAB9", "#E6E6FA", "#E0FFFF"];
+// 5DA5DA (blue) || FAA43A (orange) || 60BD68 (green) || 4D4D4D (gray) || F17CB0 (pink) || B2912F (brown) || B276B2 (purple) || DECF3F (yellow) || F15854 (red)
+var colors = ["#5DA5DA","#FAA43A","#60BD68","#4D4D4D","#F17CB0","#B2912F","#B276B2","#DECF3F","#F15854"];
+var UserTimeData = {};
 
 function drawSection(startDeg, endDeg, centerX, centerY, radius, context, i) {
   context.save();
@@ -31,7 +33,12 @@ function drawPieChat(data) {
     var time = data[i];
     var deg = (time/sum) * 2 * Math.PI;
     drawSection(degSum,degSum+deg,centerX,centerY,radius,context,counter);
-    counter += 1;
+    if (counter >= colors.length - 1) {
+      counter = 0;
+    }
+    else {
+      counter += 1;
+    }
     degSum += deg;
   }
 }
@@ -45,6 +52,16 @@ document.addEventListener('DOMContentLoaded', function() {
     var url = protocol + '//' + host;
     document.getElementById('url').innerHTML = url;
   });
-  var data = {"a":500,"b":250,"c":1000,"d":800,"e":15};
-  drawPieChat(data);
+
+  chrome.storage.sync.get("TTData", function(items) {
+    if (items["TTData"]) {
+      UserTimeData = items["TTData"];
+      console.log("[INFO] Loaded previous storage data.");
+    }
+    else {
+      console.log("[INFO] No storage items.")
+    }
+    drawPieChat(UserTimeData);
+  });
+
 }, false);
