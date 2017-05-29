@@ -43,3 +43,36 @@ function initSetup() {
 }
 
 initSetup();
+
+function initCategories() {
+  var categoriesUrl = chrome.runtime.getURL("categories.xml");
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', categoriesUrl, true);
+  xhr.send(null);
+  if (xhr.status==200) {
+    xmlDoc = xhr.responseXML;
+    // var empid= xmlDoc.getElementsByTagName("c");
+    // var total = placeMarks.length;
+    // var names = xmlDoc.getElementsByTagName("Name");
+    // var designation= xmlDoc.getElementsByTagName("designation");
+    // var phone= xmlDoc.getElementsByTagName("phone");
+  }
+  else if (xmlhttp.status==404) {
+    // alert("XML could not be found");
+  }
+}
+
+function updateCategories() {
+
+}
+
+chrome.runtime.onInstalled.addListener(function(details){
+    if (details.reason == "install") {
+        initCategories();
+    }
+    else if (details.reason == "update") {
+        var thisVersion = chrome.runtime.getManifest().version;
+        updateCategories();
+        console.log("Updated from " + details.previousVersion + " to " + thisVersion + "!");
+    }
+});
